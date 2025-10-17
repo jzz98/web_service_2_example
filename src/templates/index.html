@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Usuarios desde API</title>
+</head>
+<body style="font-family: Arial, sans-serif; background: #fafafa; color: #333; margin: 0; padding: 1rem;">
+
+  <h1 style="text-align: center; color: #0070f3;">Usuarios</h1>
+  <p id="loading" style="text-align: center;">Cargando datos...</p>
+  <ul id="usuarios" style="list-style: none; padding: 0;"></ul>
+
+  <script>
+    // Cambia esta URL por la de tu backend en Render si lo deseas
+    const API_URL = "https://jsonplaceholder.typicode.com/users";
+
+    const lista = document.getElementById("usuarios");
+    const loading = document.getElementById("loading");
+
+    async function cargarUsuarios() {
+      try {
+        const respuesta = await fetch(API_URL);
+        if (!respuesta.ok) throw new Error("Error al obtener los datos");
+        const usuarios = await respuesta.json();
+
+        loading.style.display = "none";
+
+        usuarios.forEach(usuario => {
+          const item = document.createElement("li");
+          item.textContent = usuario.name;
+          item.style.background = "white";
+          item.style.margin = "5px 0";
+          item.style.padding = "10px";
+          item.style.borderRadius = "6px";
+          item.style.boxShadow = "0 2px 5px rgba(0,0,0,0.1)";
+          lista.appendChild(item);
+        });
+      } catch (error) {
+        loading.textContent = "Error al cargar la API 😞";
+        console.error(error);
+      }
+    }
+
+    cargarUsuarios();
+  </script>
+
+</body>
+</html>
